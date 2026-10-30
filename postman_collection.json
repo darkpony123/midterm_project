@@ -1,0 +1,59 @@
+{
+  "info": {
+    "name": "Library API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8000" },
+    { "key": "bookId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Create book",
+      "event": [{
+        "listen": "test",
+        "script": { "type": "text/javascript", "exec": [
+          "const res = pm.response.json();",
+          "pm.collectionVariables.set('bookId', res.id);",
+          "pm.test('Status 201', () => pm.response.to.have.status(201));"
+        ]}
+      }],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"title\": \"Clean Code\",\n  \"author\": \"Robert Martin\",\n  \"year\": 2008\n}" },
+        "url": { "raw": "{{baseUrl}}/books", "host": ["{{baseUrl}}"], "path": ["books"] }
+      }
+    },
+    {
+      "name": "List books",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/books", "host": ["{{baseUrl}}"], "path": ["books"] }
+      }
+    },
+    {
+      "name": "Get book by ID",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/books/{{bookId}}", "host": ["{{baseUrl}}"], "path": ["books", "{{bookId}}"] }
+      }
+    },
+    {
+      "name": "Update book",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"title\": \"Clean Code (2nd ed.)\",\n  \"author\": \"Robert Martin\",\n  \"year\": 2010\n}" },
+        "url": { "raw": "{{baseUrl}}/books/{{bookId}}", "host": ["{{baseUrl}}"], "path": ["books", "{{bookId}}"] }
+      }
+    },
+    {
+      "name": "Delete book",
+      "request": {
+        "method": "DELETE",
+        "url": { "raw": "{{baseUrl}}/books/{{bookId}}", "host": ["{{baseUrl}}"], "path": ["books", "{{bookId}}"] }
+      }
+    }
+  ]
+}
